@@ -1,0 +1,6 @@
+catatan yang kurang
+1. deteksi insert data yang kodenya sudah ada- harusnya tidak bisa.
+2. tidak bisa delete jika masih ada kaitan data.
+3. view data sekolah, siswa menurut data masing masing.
+4. mengurutkan nama sesui abjad
+5. Pas nambah login + autocomplete (opsional)
