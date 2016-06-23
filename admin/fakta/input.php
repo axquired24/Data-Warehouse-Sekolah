@@ -65,20 +65,27 @@
 	<select name="nis">
 		<?php 
 			// sekolah
-		foreach ($arrnis as $niskey => $nisvalue) {
-		  // tampilkan hanya yang terbaru
-		  $qtampilterbaru = "SELECT * FROM sekolah 
-		                                WHERE nis = '$nisvalue' 
-		                                AND status != 'delete'
-		                                AND tanggal = (SELECT max(tanggal) FROM sekolah WHERE nis='$nisvalue')
-		                                ";
-		  $tampilterbaru  = mysql_query($qtampilterbaru);  
-	      // keluarkan data induk siswa
-	      while($hasilnis = mysql_fetch_array($tampilterbaru))
-	      {
-	      	echo '<option value="'.$hasilnis[nis].'">'.$hasilnis[namasekolah].'</option>';
-	      } // close while hasilinduk
-		}  // close foreach arrinduk  
+		if($_SESSION[level] == 'user')
+		{
+			echo '<option value="'.$_SESSION[nis].'">'.$_SESSION[namasekolah].'</option>';
+		} // // Close if $_SESSION[level]
+		else
+		{
+			foreach ($arrnis as $niskey => $nisvalue) {
+			  // tampilkan hanya yang terbaru
+			  $qtampilterbaru = "SELECT * FROM sekolah 
+			                                WHERE nis = '$nisvalue' 
+			                                AND status != 'delete'
+			                                AND tanggal = (SELECT max(tanggal) FROM sekolah WHERE nis='$nisvalue')
+			                                ";
+			  $tampilterbaru  = mysql_query($qtampilterbaru);  
+		      // keluarkan data induk siswa
+		      while($hasilnis = mysql_fetch_array($tampilterbaru))
+		      {
+		      	echo '<option value="'.$hasilnis[nis].'">'.$hasilnis[namasekolah].'</option>';
+		      } // close while hasilinduk
+			}  // close foreach arrinduk  
+		} // Close else $_SESSION[level]
 		?>
 	</select>
 </td></tr>
