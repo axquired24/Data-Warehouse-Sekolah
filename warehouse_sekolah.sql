@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.4.12
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 22 Jun 2016 pada 16.18
--- Versi Server: 5.6.20
--- PHP Version: 5.5.15
+-- Generation Time: Jun 23, 2016 at 03:27 AM
+-- Server version: 5.6.25
+-- PHP Version: 5.5.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,71 +14,77 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `skripsi`
+-- Database: `warehouse_sekolah`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `akreditasi`
+-- Table structure for table `akreditasi`
 --
 
 CREATE TABLE IF NOT EXISTS `akreditasi` (
-`idakreditasi` int(5) NOT NULL,
+  `idakreditasi` int(5) NOT NULL,
   `namaakreditasi` varchar(30) DEFAULT NULL,
   `status` varchar(45) NOT NULL DEFAULT 'insert',
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `kodea` varchar(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `akreditasi`
+-- Dumping data for table `akreditasi`
 --
 
 INSERT INTO `akreditasi` (`idakreditasi`, `namaakreditasi`, `status`, `tanggal`, `kodea`) VALUES
-(31, 'A', 'insert', '2016-06-21 16:37:32', 'a'),
+(31, 'A', 'insert', '2016-06-22 16:37:32', 'a'),
 (32, 'B', 'update', '2016-06-21 16:37:40', 'b'),
 (33, 'B', 'update', '2016-06-21 16:39:29', 'b'),
-(34, 'C', 'insert', '2016-06-21 16:39:39', 'c');
+(34, 'C', 'insert', '2016-06-21 16:39:39', 'c'),
+(36, 'A', 'delete', '2016-06-23 00:59:11', 'a'),
+(37, 'A', 'insert', '2016-06-23 01:06:03', 'a'),
+(38, 'B', 'delete', '2016-06-23 01:24:37', 'b'),
+(39, 'Bencong', 'insert', '2016-06-23 01:24:54', 'b'),
+(40, 'B', 'update', '2016-06-23 01:26:51', 'b');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `fakta`
+-- Table structure for table `fakta`
 --
 
 CREATE TABLE IF NOT EXISTS `fakta` (
-`idfakta` int(30) NOT NULL,
+  `idfakta` int(30) NOT NULL,
   `induk` varchar(45) NOT NULL COMMENT 'Nomor Induk Siswa',
   `nis` varchar(30) NOT NULL COMMENT 'Nomor Induk Sekolah',
   `kodewa` varchar(30) NOT NULL COMMENT 'Kode Waktu',
   `status` varchar(30) NOT NULL DEFAULT 'insert',
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `fakta`
+-- Dumping data for table `fakta`
 --
 
 INSERT INTO `fakta` (`idfakta`, `induk`, `nis`, `kodewa`, `status`, `tanggal`) VALUES
 (42, '21q', '123', '012', 'insert', '2016-06-21 21:35:11'),
 (43, '21q', '123', '012', 'update', '2016-06-21 21:35:58'),
-(44, '11111', '22323', '014', 'insert', '2016-06-22 06:59:24'),
+(44, '11111', '22222', '014', 'insert', '2016-06-22 06:59:24'),
 (45, '1211', '22222', '014', 'insert', '2016-06-22 06:59:36'),
 (46, '1212', '22222', '012', 'insert', '2016-06-22 06:59:50'),
-(47, '1212', '44444', '20', 'insert', '2016-06-22 07:00:05');
+(47, '1212', '44444', '20', 'insert', '2016-06-22 07:00:05'),
+(48, '11111', '123', '014', 'update', '2016-06-22 22:01:49');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `isitabel`
+-- Table structure for table `isitabel`
 --
 
 CREATE TABLE IF NOT EXISTS `isitabel` (
-`idisitabel` int(11) NOT NULL,
+  `idisitabel` int(11) NOT NULL,
   `unixkey` text NOT NULL,
   `namasiswa` varchar(40) NOT NULL,
   `induk` varchar(30) NOT NULL,
@@ -88,43 +94,34 @@ CREATE TABLE IF NOT EXISTS `isitabel` (
   `namaakreditasi` varchar(30) NOT NULL,
   `namawil` varchar(40) NOT NULL,
   `tahun` year(4) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=492 ;
+) ENGINE=InnoDB AUTO_INCREMENT=750 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `isitabel`
+-- Dumping data for table `isitabel`
 --
 
 INSERT INTO `isitabel` (`idisitabel`, `unixkey`, `namasiswa`, `induk`, `namasekolah`, `namakategori`, `namajenis`, `namaakreditasi`, `namawil`, `tahun`) VALUES
-(479, '8514811', 'rocan', '1212', 'SMA 4 Sragen', 'Negeri', 'SMA', 'B', 'Sragen', 2013),
-(480, '8514811', 'Sigid', '21q', 'SMA 123', 'Negeri', 'SMA', 'B', 'Masaran', 2012),
-(481, '8514811', 'Sigid H', '11111', 'SMK 2 Sragen', 'Negeri', 'SMK', 'C', 'Sragen', 2014),
-(482, '8514811', 'udin', '1211', 'SMA 2 Sragen', 'Negeri', 'SMA', 'B', 'Sragen', 2014),
-(483, '5337727', 'rocan', '1212', 'SMA 4 Sragen', 'Negeri', 'SMA', 'B', 'Sragen', 2013),
-(484, '5337727', 'Sigid', '21q', 'SMA 123', 'Negeri', 'SMA', 'B', 'Masaran', 2012),
-(485, '5337727', 'Sigid H', '11111', 'SMK 2 Sragen', 'Negeri', 'SMK', 'C', 'Sragen', 2014),
-(486, '5337727', 'udin', '1211', 'SMA 2 Sragen', 'Negeri', 'SMA', 'B', 'Sragen', 2014),
-(487, '8911132', 'rocan', '1212', 'SMA 4 Sragen', 'Negeri', 'SMA', 'B', 'Sragen', 2013),
-(488, '8911132', 'Sigid', '21q', 'SMA 123', 'Negeri', 'SMA', 'B', 'Masaran', 2012),
-(489, '8911132', 'Sigid H', '11111', 'SMK 2 Sragen', 'Negeri', 'SMK', 'C', 'Sragen', 2014),
-(490, '8911132', 'udin', '1211', 'SMA 2 Sragen', 'Negeri', 'SMA', 'B', 'Sragen', 2014),
-(491, '9730902', 'Sigid H', '11111', 'SMK 2 Sragen', 'Negeri', 'SMK', 'C', 'Sragen', 2014);
+(746, '2797580', 'rocan', '1212', 'SMA 4 Sragen', 'Negeri', 'SMA', 'Bencong', 'Sragen', 2013),
+(747, '2797580', 'Sigid', '21q', '123', 'Swasta', 'SMA', 'Bencong', 'Masaran', 2012),
+(748, '2797580', 'Sigid H', '11111', '123', 'Swasta', 'SMA', 'Bencong', 'Masaran', 2014),
+(749, '2797580', 'udin', '1211', 'SMA 2 Sragen', 'Negeri', 'SMA', 'Bencong', 'Sragen', 2014);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jenis_sekolah`
+-- Table structure for table `jenis_sekolah`
 --
 
 CREATE TABLE IF NOT EXISTS `jenis_sekolah` (
-`idjenissekolah` int(10) NOT NULL,
+  `idjenissekolah` int(10) NOT NULL,
   `namajenis` varchar(20) DEFAULT NULL,
   `status` varchar(45) NOT NULL DEFAULT 'insert',
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `kodejs` varchar(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jenis_sekolah`
+-- Dumping data for table `jenis_sekolah`
 --
 
 INSERT INTO `jenis_sekolah` (`idjenissekolah`, `namajenis`, `status`, `tanggal`, `kodejs`) VALUES
@@ -135,42 +132,44 @@ INSERT INTO `jenis_sekolah` (`idjenissekolah`, `namajenis`, `status`, `tanggal`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jurusan`
+-- Table structure for table `jurusan`
 --
 
 CREATE TABLE IF NOT EXISTS `jurusan` (
-`idjurusan` int(11) NOT NULL,
+  `idjurusan` int(11) NOT NULL,
   `namajurusan` varchar(30) DEFAULT NULL,
   `status` varchar(45) NOT NULL DEFAULT 'insert',
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `kodej` varchar(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jurusan`
+-- Dumping data for table `jurusan`
 --
 
 INSERT INTO `jurusan` (`idjurusan`, `namajurusan`, `status`, `tanggal`, `kodej`) VALUES
 (45, 'IPA', 'insert', '2016-06-21 16:41:11', 'a'),
 (46, 'IPS', 'insert', '2016-06-21 16:41:23', 's'),
-(47, 'IPS', 'update', '2016-06-21 16:41:34', 'ips');
+(47, 'IPS', 'update', '2016-06-21 16:41:34', 'ips'),
+(48, 'aaASD', 'insert', '2016-06-22 22:08:51', 'asd'),
+(49, 'Wawao', 'insert', '2016-06-22 22:10:47', 'b');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kategori_sekolah`
+-- Table structure for table `kategori_sekolah`
 --
 
 CREATE TABLE IF NOT EXISTS `kategori_sekolah` (
-`idkategorisekolah` int(11) NOT NULL,
+  `idkategorisekolah` int(11) NOT NULL,
   `namakategori` varchar(20) DEFAULT NULL,
   `status` varchar(45) NOT NULL DEFAULT 'insert',
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `kodeks` varchar(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `kategori_sekolah`
+-- Dumping data for table `kategori_sekolah`
 --
 
 INSERT INTO `kategori_sekolah` (`idkategorisekolah`, `namakategori`, `status`, `tanggal`, `kodeks`) VALUES
@@ -180,31 +179,31 @@ INSERT INTO `kategori_sekolah` (`idkategorisekolah`, `namakategori`, `status`, `
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `loginsekolah`
+-- Table structure for table `loginsekolah`
 --
 
 CREATE TABLE IF NOT EXISTS `loginsekolah` (
-`idlogin` int(11) NOT NULL,
+  `idlogin` int(11) NOT NULL,
   `namasekolah` varchar(50) NOT NULL,
   `nis` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `level` varchar(60) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `loginsekolah`
+-- Dumping data for table `loginsekolah`
 --
 
 INSERT INTO `loginsekolah` (`idlogin`, `namasekolah`, `nis`, `email`, `username`, `password`, `level`) VALUES
-(1, 'SUPER ADMIN', 'super', 'super', 'SSS', '12345', 'admin'),
+(1, 'SUPER ADMIN', 'super', 'admin', 'SSS', 'admin', 'admin'),
 (4, 'SMA 2 Sragen', '22222', 'aa@gmail.com', 'Q', '123', 'user');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `lupapasword`
+-- Table structure for table `lupapasword`
 --
 
 CREATE TABLE IF NOT EXISTS `lupapasword` (
@@ -215,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `lupapasword` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `lupapasword`
+-- Dumping data for table `lupapasword`
 --
 
 INSERT INTO `lupapasword` (`id`, `namasekolah`, `email`, `pesan`) VALUES
@@ -224,11 +223,11 @@ INSERT INTO `lupapasword` (`id`, `namasekolah`, `email`, `pesan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `sekolah`
+-- Table structure for table `sekolah`
 --
 
 CREATE TABLE IF NOT EXISTS `sekolah` (
-`idsekolah` int(11) NOT NULL,
+  `idsekolah` int(11) NOT NULL,
   `nis` varchar(30) DEFAULT NULL,
   `namasekolah` varchar(30) DEFAULT NULL,
   `status` varchar(45) NOT NULL DEFAULT 'insert',
@@ -237,28 +236,29 @@ CREATE TABLE IF NOT EXISTS `sekolah` (
   `kodejs` varchar(30) NOT NULL,
   `kodea` varchar(30) NOT NULL,
   `kodewi` varchar(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `sekolah`
+-- Dumping data for table `sekolah`
 --
 
 INSERT INTO `sekolah` (`idsekolah`, `nis`, `namasekolah`, `status`, `tanggal`, `kodeks`, `kodejs`, `kodea`, `kodewi`) VALUES
 (31, '123', 'nanna', 'insert', '2016-06-21 08:33:44', 'n', 'sma', 'aas', 'msr'),
 (32, '123', 'SMA 123', 'update', '2016-06-21 16:57:15', 'n', 'sma', 'b', 'msr'),
 (33, '22323', 'SMK 2 Sragen', 'insert', '2016-06-21 21:09:27', 'n', 'smk', 'c', 'srg'),
-(34, '22323', 'SMK 2 Sragen', 'update', '2016-06-21 21:15:59', 'n', 'smk', 'c', 'srg'),
+(34, '22323', 'SMK 2 Sragen', 'delete', '2016-06-21 21:15:59', 'n', 'smk', 'c', 'srg'),
 (35, '44444', 'SMA 4 Sragen', 'insert', '2016-06-22 06:54:39', 'n', 'sma', 'b', 'srg'),
-(36, '22222', 'SMA 2 Sragen', 'insert', '2016-06-22 06:54:58', 'n', 'sma', 'b', 'srg');
+(36, '22222', 'SMA 2 Sragen', 'insert', '2016-06-22 06:54:58', 'n', 'sma', 'b', 'srg'),
+(39, '123', '123', 'update', '2016-06-23 00:39:03', 's', 'sma', 'b', 'msr');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `siswa`
+-- Table structure for table `siswa`
 --
 
 CREATE TABLE IF NOT EXISTS `siswa` (
-`idsiswa` int(11) NOT NULL,
+  `idsiswa` int(11) NOT NULL,
   `induk` varchar(20) NOT NULL,
   `namasiswa` varchar(40) DEFAULT NULL,
   `jeniskelamin` varchar(45) DEFAULT NULL,
@@ -266,10 +266,10 @@ CREATE TABLE IF NOT EXISTS `siswa` (
   `status` varchar(45) NOT NULL DEFAULT 'insert',
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `kodej` varchar(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `siswa`
+-- Dumping data for table `siswa`
 --
 
 INSERT INTO `siswa` (`idsiswa`, `induk`, `namasiswa`, `jeniskelamin`, `nem`, `status`, `tanggal`, `kodej`) VALUES
@@ -291,24 +291,25 @@ INSERT INTO `siswa` (`idsiswa`, `induk`, `namasiswa`, `jeniskelamin`, `nem`, `st
 (20, '11111', 'Sigid H', 'Laki-laki', 12, 'update', '2016-06-21 16:57:29', 'ips'),
 (21, '1211', 'udin', 'Laki-laki', 12, 'update', '2016-06-21 16:59:34', 'a'),
 (22, '87', 'yyy', 'Perempuan', 12, 'update', '2016-06-21 16:59:44', 'ips'),
-(23, '87', 'yyy', 'Perempuan', 12, 'delete', '2016-06-21 21:08:45', 'a');
+(23, '87', 'yyy', 'Perempuan', 12, 'delete', '2016-06-21 21:08:45', 'a'),
+(24, '1214', 'Axaa', 'Perempuan', 221, 'insert', '2016-06-22 22:07:36', 'a');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `waktu`
+-- Table structure for table `waktu`
 --
 
 CREATE TABLE IF NOT EXISTS `waktu` (
-`idwaktu` int(10) NOT NULL,
+  `idwaktu` int(10) NOT NULL,
   `tahun` year(4) NOT NULL,
   `status` varchar(45) NOT NULL DEFAULT 'insert',
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `kodewa` varchar(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `waktu`
+-- Dumping data for table `waktu`
 --
 
 INSERT INTO `waktu` (`idwaktu`, `tahun`, `status`, `tanggal`, `kodewa`) VALUES
@@ -338,19 +339,19 @@ INSERT INTO `waktu` (`idwaktu`, `tahun`, `status`, `tanggal`, `kodewa`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `wilayah`
+-- Table structure for table `wilayah`
 --
 
 CREATE TABLE IF NOT EXISTS `wilayah` (
-`idwilayah` int(11) NOT NULL,
+  `idwilayah` int(11) NOT NULL,
   `kodewi` varchar(30) NOT NULL,
   `namawil` varchar(40) NOT NULL,
   `status` varchar(30) NOT NULL DEFAULT 'insert',
   `tanggal` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `wilayah`
+-- Dumping data for table `wilayah`
 --
 
 INSERT INTO `wilayah` (`idwilayah`, `kodewi`, `namawil`, `status`, `tanggal`) VALUES
@@ -377,67 +378,67 @@ INSERT INTO `wilayah` (`idwilayah`, `kodewi`, `namawil`, `status`, `tanggal`) VA
 -- Indexes for table `akreditasi`
 --
 ALTER TABLE `akreditasi`
- ADD PRIMARY KEY (`idakreditasi`);
+  ADD PRIMARY KEY (`idakreditasi`);
 
 --
 -- Indexes for table `fakta`
 --
 ALTER TABLE `fakta`
- ADD PRIMARY KEY (`idfakta`);
+  ADD PRIMARY KEY (`idfakta`);
 
 --
 -- Indexes for table `isitabel`
 --
 ALTER TABLE `isitabel`
- ADD PRIMARY KEY (`idisitabel`);
+  ADD PRIMARY KEY (`idisitabel`);
 
 --
 -- Indexes for table `jenis_sekolah`
 --
 ALTER TABLE `jenis_sekolah`
- ADD PRIMARY KEY (`idjenissekolah`);
+  ADD PRIMARY KEY (`idjenissekolah`);
 
 --
 -- Indexes for table `jurusan`
 --
 ALTER TABLE `jurusan`
- ADD PRIMARY KEY (`idjurusan`);
+  ADD PRIMARY KEY (`idjurusan`);
 
 --
 -- Indexes for table `kategori_sekolah`
 --
 ALTER TABLE `kategori_sekolah`
- ADD PRIMARY KEY (`idkategorisekolah`);
+  ADD PRIMARY KEY (`idkategorisekolah`);
 
 --
 -- Indexes for table `loginsekolah`
 --
 ALTER TABLE `loginsekolah`
- ADD PRIMARY KEY (`idlogin`);
+  ADD PRIMARY KEY (`idlogin`);
 
 --
 -- Indexes for table `sekolah`
 --
 ALTER TABLE `sekolah`
- ADD PRIMARY KEY (`idsekolah`);
+  ADD PRIMARY KEY (`idsekolah`);
 
 --
 -- Indexes for table `siswa`
 --
 ALTER TABLE `siswa`
- ADD PRIMARY KEY (`idsiswa`);
+  ADD PRIMARY KEY (`idsiswa`);
 
 --
 -- Indexes for table `waktu`
 --
 ALTER TABLE `waktu`
- ADD PRIMARY KEY (`idwaktu`);
+  ADD PRIMARY KEY (`idwaktu`);
 
 --
 -- Indexes for table `wilayah`
 --
 ALTER TABLE `wilayah`
- ADD PRIMARY KEY (`idwilayah`);
+  ADD PRIMARY KEY (`idwilayah`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -447,57 +448,57 @@ ALTER TABLE `wilayah`
 -- AUTO_INCREMENT for table `akreditasi`
 --
 ALTER TABLE `akreditasi`
-MODIFY `idakreditasi` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+  MODIFY `idakreditasi` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `fakta`
 --
 ALTER TABLE `fakta`
-MODIFY `idfakta` int(30) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
+  MODIFY `idfakta` int(30) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `isitabel`
 --
 ALTER TABLE `isitabel`
-MODIFY `idisitabel` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=492;
+  MODIFY `idisitabel` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=750;
 --
 -- AUTO_INCREMENT for table `jenis_sekolah`
 --
 ALTER TABLE `jenis_sekolah`
-MODIFY `idjenissekolah` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `idjenissekolah` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `jurusan`
 --
 ALTER TABLE `jurusan`
-MODIFY `idjurusan` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
+  MODIFY `idjurusan` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `kategori_sekolah`
 --
 ALTER TABLE `kategori_sekolah`
-MODIFY `idkategorisekolah` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `idkategorisekolah` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `loginsekolah`
 --
 ALTER TABLE `loginsekolah`
-MODIFY `idlogin` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `idlogin` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `sekolah`
 --
 ALTER TABLE `sekolah`
-MODIFY `idsekolah` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
+  MODIFY `idsekolah` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-MODIFY `idsiswa` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
+  MODIFY `idsiswa` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `waktu`
 --
 ALTER TABLE `waktu`
-MODIFY `idwaktu` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
+  MODIFY `idwaktu` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `wilayah`
 --
 ALTER TABLE `wilayah`
-MODIFY `idwilayah` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
+  MODIFY `idwilayah` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
