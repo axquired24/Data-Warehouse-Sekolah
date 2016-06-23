@@ -11,7 +11,7 @@ if(empty($_SESSION['namasekolah']))
   <br>
   <br><br>
   <div class="container">
-           <h2 class="text-center">TABEL WILAYAH</h2>
+           <h2 class="text-center">TABEL WILAYAH <a href="default.php?uri=admin/wilayah/input"><span class="glyphicon glyphicon-plus-sign text-danger"></span></a></h2>
             <div class="box-body table-responsive">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -20,7 +20,6 @@ if(empty($_SESSION['namasekolah']))
                             <td>kode</td>
                             <td>Namawilayah</td>
                             <td>status</td>
-                            <td>Aksi</td>
                             <td>Aksi</td>
                             <td>Aksi</td>
                             </tr>
@@ -58,7 +57,6 @@ if(empty($_SESSION['namasekolah']))
           <td >$hasil[namawil]</td>
           <td >$hasil[status]</td>
           <td ><a href='default.php?uri=admin/wilayah/edit&idwilayah=$hasil[idwilayah]'>edit</a></td>
-          <td ><a href='default.php?uri=admin/wilayah/input'>input</a></td>
           <td ><a href='default.php?uri=admin/wilayah/hapus&idwilayah=$hasil[idwilayah]'>Hapus</a></td> </tr>";
             $no++;
       } // tutup while

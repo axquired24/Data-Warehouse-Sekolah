@@ -7,18 +7,18 @@
 
 <div class="container">
 <br><br><br>
-<form method="post" action="<?php echo $url_post; ?>">
-	<select name="pilih">
+<form method="post" class="form-horizontal" action="<?php echo $url_post; ?>">
+<div class="col-md-offset-2 col-md-6">
+	<select name="pilih" class="form-control input-lg">
 	<?php 
 		$pilih = $_POST[pilih];
-		$selection = array("1"=>"-- Pilihan --",
+		$selection = array(
+							"kategori"=>"Kategori Sekolah",
 							"jenis_sekolah"=>"Jenis Sekolah",
 							"wilayah"=>"Wilayah",
 							"waktu"=>"Waktu",
-							"akreditasi"=>"Akreditasi",
-							"kategori"=>"kategori Sekolah"
-
-			);
+							"akreditasi"=>"Akreditasi"					
+							);
 		if(empty($pilih))
 		{
 			foreach ($selection as $key => $value) 
@@ -43,8 +43,12 @@
 		}
 	?>
 	</select>
-	<button>CEK TAHUN</button>
-</form><br><br>
+
+</div> <!-- <div class="col-md-6"> -->
+<div class="col-md-4">
+	<button class="btn btn-lg btn-danger">Tampilkan Diagram</button>
+</div> <!-- <div class="col-md-6"> -->		
+</form><br><br><br><br>
 
 
 <?php
@@ -108,7 +112,7 @@ ini_set( "display_errors", 0);
 						type: 'column'
 					},
 					title: {
-						text: 'DIAGRAM SEKOLAH'
+						text: 'DIAGRAM JENIS SEKOLAH'
 					},
 					subtitle: {
 						text: '<?php echo $year; ?>'
@@ -170,7 +174,7 @@ ini_set( "display_errors", 0);
 								type: 'column'
 							},
 							title: {
-								text: 'DIAGRAM SEKOLAH'
+								text: 'DIAGRAM WILAYAH SEKOLAH'
 							},
 							subtitle: {
 								text: '<?php echo $year; ?>'
@@ -228,7 +232,7 @@ ini_set( "display_errors", 0);
 								type: 'column'
 							},
 							title: {
-								text: 'DIAGRAM SEKOLAH'
+								text: 'DIAGRAM TAHUN SEKOLAH'
 							},
 							subtitle: {
 								text: '<?php echo $year; ?>'
@@ -286,7 +290,7 @@ ini_set( "display_errors", 0);
 								type: 'column'
 							},
 							title: {
-								text: 'DIAGRAM SEKOLAH'
+								text: 'DIAGRAM AKREDITASI SEKOLAH'
 							},
 							subtitle: {
 								text: '<?php echo $year; ?>'
@@ -344,7 +348,7 @@ ini_set( "display_errors", 0);
 								type: 'column'
 							},
 							title: {
-								text: 'DIAGRAM SEKOLAH'
+								text: 'DIAGRAM KATEGORI SEKOLAH'
 							},
 							subtitle: {
 								text: '<?php echo $year; ?>'
@@ -363,7 +367,63 @@ ini_set( "display_errors", 0);
 		break;
 
 		default:
-        echo "Pilih Data Dahulu";
+        // echo '<h3 class="page-header text-center">Pilih Data Dahulu</h3>';
+					$categories = array('Katagori');
+					$data_ser 	= mysql_query("SELECT DISTINCT(namakategori) FROM isitabel WHERE unixkey='$uk' ORDER BY namakategori DESC");
+					$data_series= array();
+					while($dat = mysql_fetch_array($data_ser)) 
+					{
+						array_push($data_series, $dat[namakategori]);
+					}
+					
+					// set sereis
+					$series = array();
+
+					// set series
+					foreach ($data_series as $key=>$val) {
+						array_push($series, array(
+							'name'=>$val,
+							'data'=>array()
+						));
+					}
+
+					// set data value per series
+					foreach ($data_series as $key=>$val) {
+						$sql = 'SELECT COUNT(*) AS result FROM isitabel a';
+						$sql .= ' WHERE a.namakategori = "'.$val.'"';
+						$sql .= ' AND unixkey = '.$_GET[uk];
+						$rs = mysql_query($sql);
+						$row = mysql_fetch_array($rs);
+
+						$result = $row['result'];
+
+						array_push($series[$key]['data'], (int) $result);
+					}
+				?>
+									<div id="contoh" style="width: 100%; height: 500px"></div>
+						<script type="text/javascript">
+						$('#contoh').highcharts({
+							chart: {
+								type: 'column'
+							},
+							title: {
+								text: 'DIAGRAM KATEGORI SEKOLAH'
+							},
+							subtitle: {
+								text: '<?php echo $year; ?>'
+							},
+							xAxis: {
+								categories: <?php echo json_encode($categories); ?>,
+								labels: {
+									rotation: 0,
+									align: 'center'
+								}
+							},
+							series: <?php echo json_encode($series); ?>
+						});
+						</script>
+				<?php
+		break;        
 	}
 
 ?>

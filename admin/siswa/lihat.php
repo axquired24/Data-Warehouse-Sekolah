@@ -14,11 +14,12 @@ if(empty($_SESSION['namasekolah']))
     else
     {
       $nsekolah = $_SESSION['nis'];
-      $nsekolah = " AND f.nis = '$nsekolah' ";
-      $sqlsekolah1 = "SELECT * FROM fakta f
-                      WHERE status != 'delete'
-                      AND f.nis = '22222'
-                      AND f.tanggal = (SELECT max(tanggal) FROM fakta f2 WHERE f.induk=f2.induk)";
+      $nsekolah = " WHERE si.induk IN
+                       (
+                       SELECT DISTINCT(f.induk) FROM fakta f 
+                       WHERE f.status != 'delete'
+                       AND f.nis = '".$nsekolah."' AND f.tanggal = (SELECT max(tanggal) FROM fakta f2 WHERE f.induk=f2.induk)
+                       ) ";
     }      
 ?>
 
@@ -47,7 +48,7 @@ if(empty($_SESSION['namasekolah']))
  <?php
     // penomoran
       $no = 1;
-      $query1=mysql_query("SELECT DISTINCT(induk) FROM siswa");      
+      $query1=mysql_query("SELECT DISTINCT(si.induk) FROM siswa si ".$nsekolah);      
       while($hasil1 = mysql_fetch_array($query1)) 
       {
         $query2 = mysql_query("SELECT * FROM siswa 

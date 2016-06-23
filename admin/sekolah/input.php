@@ -16,10 +16,6 @@ else{
       array_push($arrkodeks, $vkodeks[kodeks]);
     } // tutup while vkodewa
      $keykodeks 	= array_search($fkodeks, $arrkodeks); // cari key value nis di array arrinduk
-    unset($arrkodeks[$keykodeks]); 	// hapus value yang ditemukan
-    array_unshift($arrkodeks, $fkodeks); // set $fnis diawal array 
-
-
 
 	$kodejs  = mysql_query("SELECT DISTINCT(kodejs) FROM jenis_sekolah");
     $arrkodejs = array();
@@ -28,8 +24,6 @@ else{
       array_push($arrkodejs, $vkodejs[kodejs]);
     } // tutup while vkodewa
      $keykodejs 	= array_search($fkodejs, $arrkodejs); // cari key value nis di array arrinduk
-    unset($arrkodejs[$keykodejs]); 	// hapus value yang ditemukan
-    array_unshift($arrkodejs, $fkodejs); // set $fnis diawal array 
 	
 
 
@@ -40,8 +34,6 @@ else{
       array_push($arrkodea, $vkodea[kodea]);
     } // tutup while vkodewa
      $keykodea 	= array_search($fkodea, $arrkodea); // cari key value nis di array arrinduk
-    unset($arrkodea[$keykodea]); 	// hapus value yang ditemukan
-    array_unshift($arrkodea, $fkodea); // set $fnis diawal array 
 
 
 
@@ -52,8 +44,6 @@ else{
       array_push($arrkodewi, $vkodewi[kodewi]);
     } // tutup while vkodewa
      $keykodewi 	= array_search($fkodewi, $arrkodewi); // cari key value nis di array arrinduk
-    unset($arrkodewi[$keykodewi]); 	// hapus value yang ditemukan
-    array_unshift($arrkodewi, $fkodewi); // set $fnis diawal array 
 	
 ?>
 <br><br><br><br>

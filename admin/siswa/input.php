@@ -34,7 +34,7 @@ else{
 <div class="box-body table-responsive">
 <table id="example1" class="table table-bordered table-striped">
 <tr><td class="head-data" colspan="2">Tambah Data Siswa - <?php echo $_SESSION[namasekolah]." - ".$idsekolah; ?></td></tr>
-<tr><td class="pinggir-data">Nis</td>
+<tr><td class="pinggir-data">No. Induk</td>
 <td class="pinggir-data"><input type="text" required name="induk" size="50"></td></tr>
 <tr><td class="pinggir-data">Nama Siswa</td>
 <td class="pinggir-data"><input type="text" required name="nama" size="50"></td></tr>

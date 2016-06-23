@@ -15,7 +15,7 @@ else{
 <tr><td class="head-data" colspan="2">Tambah DataWilayah </td></tr>
 <tr>
 <td >Kode</td>
-<td class="pinggir-data"><input type="text" required name="kode" size="50"></td></tr>
+<td class="pinggir-data"><input type="text" required name="kodewi" size="50"></td></tr>
 <tr>
 <td >Nama Wilayah</td>
 <td ><input type="text" required name="namawil" size="50"></td></tr>

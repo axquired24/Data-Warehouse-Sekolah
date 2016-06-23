@@ -1,80 +1,123 @@
-<?php 
+<h2 class="page-header text-center" style="margin-top:80px">Tabel Informasi</h2>
+<div class="container">
+<?php   
+  /*
+  @param $tabel   = table yang dicari | ex: wilayah
+  @param $varget  = Kolom yang ingin diambil | ex: namawil
+  @param $varcol  = Kolom acuan tabel datawarehouse | ex: kodewi
+  @param $varval  = Value yang akan dipilih | ex: kategori (Cukup ketik kategori tanpa '$')
+  */
+  function AmbilValueDB($table, $varcol, $varval, $varget)
+  {
+    $squ = "SELECT * FROM $table a
+                      WHERE status != 'delete'
+                      AND $varcol = '".$varval."'
+                      AND tanggal = (SELECT max(tanggal) FROM $table a2 WHERE a2.".$varcol."=a.".$varcol.")
+                      ";
+    $qu = mysql_query($squ);
+    while($fe = mysql_fetch_array($qu))
+    {
+      $echohasil = $fe[$varget];
+    }
+    return $echohasil;
+  }
 
-// Kode unik pemanggilan
-$unikey     = rand(1111111,9999999);
-$unik       = $unikey;
+  // Variabel POST filter
+  $tampil     = $_POST['tampil'];
+  $dari       = $_POST['dari'];
+  $sampai     = $_POST['sampai'];
+  $kategori   = $_POST['kategori'];
+  $jenis      = $_POST['jenis'];
+  $akreditasi = $_POST['akreditasi'];
+  $wilayah    = $_POST['wilayah'];  
+
+  $ditampilin   = array("dari","sampai","kategori","jenis","akreditasi","wilayah");
+  $pakefunction = array("kategori","jenis", "akreditasi", "wilayah");
+  // Function Parameter Build
+  $fp           = array("kategori"     => array("table"=>"kategori_sekolah", "varcol"=>"kodeks", "varval"=>$kategori, "varget"=>"namakategori")
+                          ,"jenis"      => array("table"=>"jenis_sekolah", "varcol"=>"kodejs", "varval"=>$jenis, "varget"=>"namajenis")
+                          ,"akreditasi" => array("table"=>"akreditasi", "varcol"=>"kodea", "varval"=>$akreditasi, "varget"=>"namaakreditasi")
+                          ,"wilayah"    => array("table"=>"wilayah", "varcol"=>"kodewi", "varval"=>$wilayah, "varget"=>"namawil")
+                        );
+  // print_r($functionparam);
+  foreach ($ditampilin as $takey => $tavalue) {
+    // $tb_use = ${tb.$jml_pool_ini};
+    //${$tavalue}; Menghasilkan $dari, $sampai, pokoknya '$' + 'array value'    
+    if(isset(${$tavalue}) AND ${$tavalue} != 'semua')
+    {
+      // Kecuali "dari" dan "sampai" variabel lain hanya mengeluarkan key/kodenya,
+      // membutuhkan function untuk memanggil valuenya
+      if(in_array($tavalue, $pakefunction))
+      {
+        ${$tavalue."tampil"}       = AmbilValueDB($fp[$tavalue][table], $fp[$tavalue][varcol], $fp[$tavalue][varval], $fp[$tavalue][varget]);        
+      }
+      else
+      {
+        ${$tavalue."tampil"}       = ${$tavalue};
+      }
+      ${ditampil.$tavalue} = '<option value="'.${$tavalue}.'">'.${$tavalue."tampil"}.'</option>';
+      ${ditampil.$tavalue} .= '<option value="semua">semua</option>';
+      // echo ${ditampil.$tavalue};
+    }
+    else
+    {
+      ${ditampil.$tavalue}   = '<option value="semua">semua</option>';
+    }
+    // echo "Tampilan ini $tavalue: ".${ditampil.$tavalue}."<br>";
+  } // Close foreach ($ditampilin as $takey => $tavalue)
 
 ?>
-<h2 class="page-header text-center" style="margin-top:80px">Tabel Informasi</h2>
-<form action="default.php?uri=modul/diagram/tabel&uk=<?php echo $unik; ?>" method="post">
- <div class="container">
+<form action="default.php?uri=modul/diagram/tabel&uk=<?php echo $unik; ?>" method="post"> 
 <div class="box-body table-responsive">
 <table  class="table table-bordered table-striped">
 <tr>
     <td><font color="black">Tahun: </font></td>
     <td style="text-align:center;">
-        <select name="dari" class="input-sm">
-        <option> semua </option>
-<?php 
- $query1=mysql_query("SELECT * FROM waktu wa
-                      WHERE status != 'delete'
-                      AND tanggal = (SELECT max(tanggal) FROM waktu wa2 WHERE wa2.kodewa=wa.kodewa)
-                      ORDER BY tahun ASC
-                    ");      
-      while($hasil1 = mysql_fetch_array($query1)) 
-      {
-        $query2 = mysql_query("SELECT * FROM waktu
-                                      WHERE kodewa = '$hasil1[kodewa]' 
-                                      AND status != 'delete'
-                                      AND tanggal = (SELECT max(tanggal) FROM waktu WHERE kodewa='$hasil1[kodewa]')
-                                      ");
-        while($hasil = mysql_fetch_array($query2))
-        {
-          echo "  
-             <option value='$hasil[tahun]'>$hasil[tahun]</option>
-          ";
+        <select name="dari" class="input-sm form-control">
+        <?php 
+         echo $ditampildari;       
+          $query2 = mysql_query("SELECT * FROM waktu wa
+                                  WHERE status != 'delete'
+                                  AND tahun != '$dari'
+                                  AND tanggal = (SELECT max(tanggal) FROM waktu wa2 WHERE wa2.kodewa=wa.kodewa)
+                                  ORDER BY tahun ASC
+                                        ");
+          while($hasil = mysql_fetch_array($query2))
+          {
+            echo "  
+               <option value='$hasil[tahun]'>$hasil[tahun]</option>
+            ";
           } // while($hasil
-        } //while($hasil1
-        ?>
+          ?>
         </select>
     </td>
     <td  style="text-align:center"><font color="black">s/d</font></td>
        <td style="text-align:center;">
-        <select name="sampai" class="input-sm">
-        <option> semua </option>
+        <select name="sampai" class="input-sm form-control">
         <?php 
-      $query1=mysql_query("SELECT * FROM waktu wa
-                      WHERE status != 'delete'
-                      AND tanggal = (SELECT max(tanggal) FROM waktu wa2 WHERE wa2.kodewa=wa.kodewa)
-                      ORDER BY tahun ASC
-                    ");      
-      while($hasil1 = mysql_fetch_array($query1)) 
-      {
-        $query2 = mysql_query("SELECT * FROM waktu
-                                      WHERE kodewa = '$hasil1[kodewa]' 
-                                      AND status != 'delete'
-                                      AND tanggal = (SELECT max(tanggal) FROM waktu WHERE kodewa='$hasil1[kodewa]')
-                                      ");        
-        while($hasil = mysql_fetch_array($query2))
-        {
-          echo "  
-              <option value='$hasil[tahun]'>$hasil[tahun]</option>
-          ";
+         echo $ditampilsampai;
+          $query2 = mysql_query("SELECT * FROM waktu wa
+                                  WHERE status != 'delete'
+                                  AND tahun != '$sampai'
+                                  AND tanggal = (SELECT max(tanggal) FROM waktu wa2 WHERE wa2.kodewa=wa.kodewa)
+                                  ORDER BY tahun ASC
+                                        ");
+          while($hasil = mysql_fetch_array($query2))
+          {
+            echo "  
+               <option value='$hasil[tahun]'>$hasil[tahun]</option>
+            ";
           } // while($hasil
-        } //while($hasil1
-        ?>
+          ?>
         </select>
     </td>
     <tr>
     <td style="text-align:left;"><font color="black">Kategori: </font></td>
     <td style="text-align:center;">
-        <select name="kategori" class="input-sm">
-        <option> semua </option>
-            <!-- <option value="<?php echo $kategori; ?>"><?php echo ucwords($kategori); ?></option>
-            <?php echo $semua_kategori; ?> -->
-                     <?php // echo $semua_sampai; ?>
+        <select name="kategori" class="input-sm form-control">
             <?php 
-           $query1=mysql_query("SELECT DISTINCT(kodeks) FROM kategori_sekolah");      
+            echo $ditampilkategori;
+           $query1=mysql_query("SELECT DISTINCT(kodeks) FROM kategori_sekolah WHERE kodeks != '$kategori'");      
                 while($hasil1 = mysql_fetch_array($query1)) 
                 {
             $query2 = mysql_query("SELECT * FROM kategori_sekolah
@@ -94,13 +137,10 @@ $unik       = $unikey;
   
     <td style="text-align:left;"><font color="black">Jenis Sekolah: </font></td>
     <td style="text-align:center;">
-        <select name="jenis" class="input-sm">
-        <option> semua </option>
-            <!-- <option value="<?php echo $jenis; ?>"><?php echo ucwords($jenis); ?></option>
-            <?php echo $semua_jenis; ?> -->
-                      <?php // echo $semua_sampai; ?>
+        <select name="jenis" class="input-sm form-control">
           <?php 
-           $query1=mysql_query("SELECT DISTINCT(kodejs) FROM jenis_sekolah");      
+            echo $ditampiljenis;
+           $query1=mysql_query("SELECT DISTINCT(kodejs) FROM jenis_sekolah WHERE kodejs != '$jenis'");      
                 while($hasil1 = mysql_fetch_array($query1)) 
                 {
             $query2 = mysql_query("SELECT * FROM jenis_sekolah
@@ -121,13 +161,10 @@ $unik       = $unikey;
   </tr>
     <td style="text-align:left;"><font color="black">Akreditasi : </font></td>
     <td style="text-align:center;">
-        <select name="akreditasi" class="input-sm">
-        <option> semua </option>
-            <!-- <option value="<?php echo $akreditasi; ?>"><?php echo ucwords($akreditasi); ?></option>
-            <?php echo $semua_akreditasi; ?> -->
-                      <?php // echo $semua_sampai; ?>
+        <select name="akreditasi" class="input-sm form-control">
             <?php 
-           $query1=mysql_query("SELECT DISTINCT(kodea) FROM akreditasi");      
+            echo $ditampilakreditasi;
+           $query1=mysql_query("SELECT DISTINCT(kodea) FROM akreditasi WHERE kodea != '$akreditasi'");      
                 while($hasil1 = mysql_fetch_array($query1)) 
                 {
             $query2 = mysql_query("SELECT * FROM akreditasi
@@ -147,13 +184,10 @@ $unik       = $unikey;
     </td>
      <td style="text-align:left;"><font color="black">Wilayah : </font></td>
     <td style="text-align:center;">
-        <select name="wilayah" class="input-sm">
-        <option> semua </option>
-           <!--  <option value="<?php echo $wilayah; ?>"><?php echo ucwords($wilayah); ?></option>
-            <?php echo $semua_wilayah; ?> -->
-                     <?php // echo $semua_sampai; ?>
+        <select name="wilayah" class="input-sm form-control">
             <?php 
-           $query1=mysql_query("SELECT DISTINCT(kodewi) FROM wilayah");      
+            echo $ditampilwilayah;
+           $query1=mysql_query("SELECT DISTINCT(kodewi) FROM wilayah WHERE kodewi != '$wilayah'");      
                 while($hasil1 = mysql_fetch_array($query1)) 
                 {
             $query2 = mysql_query("SELECT * FROM wilayah
@@ -224,16 +258,6 @@ SELECT f.*, s.*, si.*, a.*, js.*, ks.*, w.*, wa.*
     AND wa.tanggal IN (SELECT MAX(tanggal) FROM waktu wa2 WHERE wa2.kodewa =wa.kodewa)
 ";
 
-
-// Variabel POST filter
-$tampil     = $_POST['tampil'];
-$dari       = $_POST['dari'];
-$sampai     = $_POST['sampai'];
-$kategori   = $_POST['kategori'];
-$jenis      = $_POST['jenis'];
-$akreditasi = $_POST['akreditasi'];
-$wilayah    = $_POST['wilayah'];
-
 // if wilayah terisi
 if(isset($wilayah) && ($wilayah != 'semua'))
 {
@@ -287,6 +311,9 @@ else if (isset($dari) && ($dari != 'semua'))
             </thead>
 <?php 
   $no=1;
+  // Kode unik pemanggilan
+  $unikey     = rand(1111111,9999999);
+  $unik       = $unikey;  
   $jalankan=mysql_query($sqldasar);
   while($hasil=mysql_fetch_array($jalankan))
   {          
@@ -302,12 +329,12 @@ else if (isset($dari) && ($dari != 'semua'))
                       '$hasil[namajenis]',
                       '$hasil[namaakreditasi]',
                       '$hasil[namawil]',
-                      '$hasil[tahun]'
-                  )";
-    $lastid       = mysql_query("SELECT LAST_INSERT_ID() AS lastid");
+                      '$hasil[tahun]'                      
+                  )                    
+                  ";
 
     $ex_diagaram  = mysql_query($ins_diagram) OR DIE(mysql_error());
-    $lastid       = mysql_fetch_array($lastid);
+    $lastid       = mysql_fetch_array(mysql_query("SELECT LAST_INSERT_ID() AS lastid"));
     $lastid       = $lastid[lastid];
 
     $lastuniq     = "SELECT unixkey FROM isitabel WHERE idisitabel='$lastid'";
@@ -339,6 +366,6 @@ else if (isset($dari) && ($dari != 'semua'))
       
 
 <p align="left"> <a class="btn btn-lg btn-danger" href="default.php?uri=modul/diagram/diagram&uk=<?php echo $lastuniq; ?>" target="blank"> Diagram </a></p>
-</div>
+</div> <!-- Container -->
 </body>
 </html>

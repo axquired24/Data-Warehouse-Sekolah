@@ -54,7 +54,7 @@
 	      // keluarkan data induk siswa
 	      while($hasilinduk = mysql_fetch_array($tampilterbaru))
 	      {
-	      	echo '<option value="'.$hasilinduk[induk].'">'.$hasilinduk[namasiswa].'</option>';
+	      	echo '<option value="'.$hasilinduk[induk].'">'.$hasilinduk[namasiswa].' ('.$hasilinduk[induk].')</option>';
 	      } // close while hasilinduk
 		}  // close foreach arrinduk  
 	?>
